@@ -60,7 +60,7 @@ public class CoinMan extends ApplicationAdapter {
         random=new Random();
         font=new BitmapFont();
         font.setColor(Color.WHITE);
-        font.getData().setScale(10);
+        font.getData().setScale(8);
 	}
 
 
@@ -146,6 +146,20 @@ public class CoinMan extends ApplicationAdapter {
 
 		}else if(gameState==2){
 			//GAME OVER
+			if(Gdx.input.justTouched()){
+				gameState=1;
+				manY=Gdx.graphics.getHeight()/2;
+				Score=0;
+				velocity=0;
+				coinXs.clear();
+				coinYs.clear();
+				coinRectangle.clear();
+				coinCount=0;
+				bombXs.clear();
+				bombYs.clear();
+				bombRectangle.clear();
+				bombCount=0;
+			}
 		}
 
        batch.draw(man[manState],Gdx.graphics.getWidth()/2-man[manState].getWidth()/2,manY);
