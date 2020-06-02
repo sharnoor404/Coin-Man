@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,7 +20,7 @@ public class CoinMan extends ApplicationAdapter {
 	float gravity=0.2f;
 	float velocity=0;
 	int manY=0;
-
+	Rectangle manRectangle;
 	ArrayList<Integer> coinXs =new ArrayList<Integer>();
 	ArrayList<Integer> coinYs =new ArrayList<Integer>();
 	Texture coin;
@@ -29,6 +31,8 @@ public class CoinMan extends ApplicationAdapter {
 	Texture bomb;
 	int bombCount;
 
+	ArrayList<Rectangle> coinRectangle =new ArrayList<Rectangle>();
+	ArrayList<Rectangle> bombRectangle =new ArrayList<Rectangle>();
 
 	Random random;
 	@Override
@@ -76,10 +80,11 @@ public class CoinMan extends ApplicationAdapter {
 			bombCount=0;
 			makeBomb();
 		}
-
+		bombRectangle.clear();
 		for(int i=0;i<bombXs.size();i++){
 			batch.draw(bomb,bombXs.get(i),bombYs.get(i));
 			bombXs.set(i,bombXs.get(i)-8);
+			bombRectangle.add(new Rectangle(bombXs.get(i),bombYs.get(i),bomb.getWidth(),bomb.getHeight()));
 		}
 
 		//COINS
@@ -89,10 +94,11 @@ public class CoinMan extends ApplicationAdapter {
 			coinCount=0;
 			makeCoin();
 		}
-
+		coinRectangle.clear();
 		for(int i=0;i<coinXs.size();i++){
 			batch.draw(coin,coinXs.get(i),coinYs.get(i));
 			coinXs.set(i,coinXs.get(i)-4);
+			coinRectangle.add(new Rectangle(coinXs.get(i),coinYs.get(i),coin.getWidth(),coin.getHeight()));
 		}
 
 
@@ -117,8 +123,20 @@ public class CoinMan extends ApplicationAdapter {
 			manY=0;
 		}
        batch.draw(man[manState],Gdx.graphics.getWidth()/2-man[manState].getWidth()/2,manY);
+		manRectangle=new Rectangle(Gdx.graphics.getWidth()/2-man[manState].getWidth()/2,manY,man[manState].getWidth(),man[manState].getHeight());
 
+		for(int i=0;i<coinRectangle.size();i++){
+			if(Intersector.overlaps(manRectangle,coinRectangle.get(i))){
+					Gdx.app.log("Coin!!","Collision!!");
+			}
 
+		}
+		for(int i=0;i<bombRectangle.size();i++){
+			if(Intersector.overlaps(manRectangle,bombRectangle.get(i))){
+				Gdx.app.log("Bomb!!","Collision!!");
+			}
+
+		}
 
 	batch.end();
 	}
