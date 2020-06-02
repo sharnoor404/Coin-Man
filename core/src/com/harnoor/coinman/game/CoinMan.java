@@ -36,6 +36,9 @@ public class CoinMan extends ApplicationAdapter {
 	batch.draw(background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 	    //0,0 marks the start of our background image(coordinate)
         // we set the height and width to take up the whole screen
+		if(Gdx.input.justTouched()){
+			velocity=-10;
+		}
 		if(pause<8){
 			pause++;
 		}else{
