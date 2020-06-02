@@ -17,6 +17,7 @@ public class CoinMan extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture background;//texture is used to add images
 	Texture[] man ;//man array stores array of images for our character
+	Texture dizzyState;
 	int manState=0;
 	int pause=0;
 	float gravity=0.2f;
@@ -53,6 +54,8 @@ public class CoinMan extends ApplicationAdapter {
         man[1]=new Texture("frame-2.png");
         man[2]=new Texture("frame-3.png");
         man[3]=new Texture("frame-4.png");
+
+        dizzyState=new Texture("dizzy-1.png");
 
         manY=Gdx.graphics.getHeight()/2;
         coin=new Texture("coin.png");
@@ -162,7 +165,12 @@ public class CoinMan extends ApplicationAdapter {
 			}
 		}
 
-       batch.draw(man[manState],Gdx.graphics.getWidth()/2-man[manState].getWidth()/2,manY);
+		if(gameState==2){
+			batch.draw(dizzyState,Gdx.graphics.getWidth()/2-man[manState].getWidth()/2,manY);
+		}else{
+			batch.draw(man[manState],Gdx.graphics.getWidth()/2-man[manState].getWidth()/2,manY);
+		}
+
 		manRectangle=new Rectangle(Gdx.graphics.getWidth()/2-man[manState].getWidth()/2,manY,man[manState].getWidth(),man[manState].getHeight());
 
 		for(int i=0;i<coinRectangle.size();i++){
